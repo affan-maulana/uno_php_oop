@@ -1,6 +1,6 @@
 <?php
 require_once "Deck.php";
-
+const TOTAL_CARD = 7;
 class Player {
     private $name;
     private $cards;
@@ -15,8 +15,20 @@ class Player {
     }
 
     // Setter
-    public function setCard($card) {
-        $this->cards = $card;
+    public function setCard(Deck $deck) {
+        $cards = [];
+        $totalCard = TOTAL_CARD;
+        foreach ($deck->cards as $key => $card) {
+            $cards[] = $card;  
+            unset($deck->cards[$key]);
+            $totalCard--;
+            if ($totalCard == 0) {
+                break;
+            }
+        }
+
+        $this->cards = $cards;
+
     }
 
     // Getter
@@ -50,7 +62,7 @@ class Player {
         }
 
         if (!$isExist) {
-            echo "SKIP ===>>>".PHP_EOL;
+            echo "<<<< SKIP >>>>> ";
             $this->cards[] = $deck->getOneRandomCard();
         }   
         return;
